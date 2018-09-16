@@ -8,6 +8,9 @@ public abstract class MoveableObject extends GameObject {
     private int speed;
     private int direction; // 0 is N, 90 is E, 180 is S, 270 is W
 
+    /**
+     * Abstract method move
+     */
     public abstract void move();
 
     public MoveableObject() {
@@ -26,15 +29,44 @@ public abstract class MoveableObject extends GameObject {
             randomizeDirection();
     }
 
+
     /**
+	 * @return the speed
+	 */
+	public int getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * @param speed the speed to set
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	/**
+	 * @return the direction
+	 */
+	public int getDirection() {
+		return direction;
+	}
+
+	/**
+	 * @param direction the direction to set
+	 */
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	/**
      * Randomize speed from 0-10
      */
     private void randomizeSpeed() {
         Random rng = new Random();
         this.speed = rng.nextInt(11);
     }
-
-    /**
+	
+	/**
      * Randomize direction from 0-359
      */
     private void randomizeDirection() {
