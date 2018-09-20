@@ -11,4 +11,16 @@ public class SteerableMissileLauncher extends MissileLauncher implements ISteera
     public void changeDirection(int direction) {
 
     }
+
+	@Override
+	public void steerRight() {
+		this.setDirection((this.getDirection() + 7) % 360);
+		
+	}
+
+	@Override
+	public void steerLeft() {
+		// TODO Auto-generated method stub
+		
+	}
 }

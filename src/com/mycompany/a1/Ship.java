@@ -10,7 +10,7 @@ public abstract class Ship extends MoveableObject {
     	missileCount = MAX_MISSILES;
     }
     
-    abstract public void fireMissile();
+    abstract public Missile fireMissile();
 
 	/**
 	 * @return the missileCount
@@ -18,10 +18,25 @@ public abstract class Ship extends MoveableObject {
 	public int getMissileCount() {
 		return missileCount;
 	}
+	
+	/**
+	 * Checks if ship has missiles
+	 * @return
+	 */
+	public boolean hasMissiles() {
+		if (missileCount != 0)
+			return true;
+		else 
+			return false;
+	}
 
 	/**
 	 * Shot a missile to decrement missile count by one
 	 */
 	public void shotMissile() { missileCount--; }
+	
+	public void reloadMissiles() {
+		this.missileCount = MAX_MISSILES;
+	}
     
 }

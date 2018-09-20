@@ -4,43 +4,32 @@ import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.geom.Point2D;
+import com.mycompany.a1.exceptions.IllegalFixedObjectMethod;
 
 public abstract class GameObject {
 
-    //private Point2D location;
-    private double x;
-    private double y;
-    private int color;
+    private Point2D location;
+	private int color;
     private GameWorld gw = new GameWorld();
     
     public GameObject() {
-    	this.x = randomizeDouble(gw.getMaxWidth());
-    	this.y = randomizeDouble(gw.getMaxHeight());
+    	this.location = new Point2D(randomizeDouble(gw.getMaxWidth()), randomizeDouble(gw.getMaxHeight()));
     }
     
     /**
-     * Set this GameObject's x coord
-     * @param newColor
-     */
-    public void setX(double x) { this.x = x; }
+   	 * @return the location
+   	 */
+   	public Point2D getLocation() {
+   		return location;
+   	}
 
-    /**
-     * Set this GameObject's y coord
-     * @param newColor
-     */
-    public void setY(double y) { this.y = y; }
-
-    /**
-     * Get this GameObject's y coord
-     * @param newColor
-     */
-    public double getY() { return y; }
-
-    /**
-     * Get this GameObject's x coord
-     * @param newColor
-     */
-    public double getX() { return x; }
+   	/**
+   	 * @param location the location to set
+   	 * @throws IllegalFixedObjectMethod 
+   	 */
+   	public void setLocation(Point2D location) {
+   		this.location = location;
+   	}
 
     /**
      * Get this GameObject's color
@@ -58,6 +47,14 @@ public abstract class GameObject {
      * @param newColor
      */
     public void setColor(int newColor) { this.color = newColor; }
+    
+    public int randomizeIntRange(int lowerBound, int upperBound) {
+    	Random rng = new Random();
+    	if (lowerBound == 0) 
+    		return rng.nextInt(upperBound);
+    	else
+    		return rng.nextInt(upperBound - lowerBound) + lowerBound;
+    }
     
     /**
      * Random double in bound

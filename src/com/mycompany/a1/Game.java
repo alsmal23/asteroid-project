@@ -36,15 +36,15 @@ public class Game extends Form {
     			String sCommand=myTextField.getText().toString(); myTextField.clear();
     			switch (sCommand.charAt(0)) { 
     				case 'a':
-    					
+    					gameWorld.addAsteroid();
     					break;
     					
     				case 'y':
-    					
+    					gameWorld.addNPS();
     					break;
     					
     				case 'b':
-    					
+    					gameWorld.addSpaceStation();
     					break;
     					
     				case 's':
@@ -52,39 +52,39 @@ public class Game extends Form {
     					break;
     					
     				case 'i':
-    					
+    					gameWorld.increasePSSpeed();
     					break;
     					
     				case 'd':
-    					
+    					gameWorld.decreasePSSpeed();
     					break;
     					
     				case 'l':
-    					
+    					gameWorld.turnPSLeft();
     					break;
     					
     				case 'r':
-    					
+    					gameWorld.turnPSRight();
     					break;
     					
     				case '<':
-    					
+    					gameWorld.turnPSLauncher();
     					break;
     				
     				case 'f':
-    					
+    					gameWorld.fireMissile();
     					break;
     				
     				case 'L':
-    					
+    					// same as f ????
     					break;
     					
     				case 'j':
-    					
+    					gameWorld.hyperspace(); // test after move is implemented
     					break;
     					
     				case 'n':
-    					
+    					gameWorld.reloadPS();
     					break;
     					
     				case 'k':
@@ -132,7 +132,7 @@ public class Game extends Form {
     					break;
     					
     				default:
-    					//invalid cmd
+    					System.out.println("Invalid cmd please try again");
     					break;
     					
     			
