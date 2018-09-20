@@ -14,6 +14,7 @@ public class NonPlayerShip extends Ship {
 		else if (temp == 1)
 			this.size = 20;
 		this.setColor(ColorUtil.YELLOW);
+		
 	}
 
     @Override
@@ -23,7 +24,7 @@ public class NonPlayerShip extends Ship {
 
     @Override
     public Missile fireMissile() {
-    	return new Missile();
+    	return new Missile(this.getLocation(), this.getSpeed() + 4, this.getDirection());
     }
     
     @Override

@@ -3,11 +3,13 @@ package com.mycompany.a1;
 public abstract class Ship extends MoveableObject {
 	
 	private int missileCount;
-    private MissileLauncher missileLauncher;
+    private MissileLauncher missileLauncher = new MissileLauncher();
     private static final int MAX_MISSILES = 10;
 
     public Ship() {
     	missileCount = MAX_MISSILES;
+    	this.missileLauncher.setDirection(this.getDirection());
+    	this.missileLauncher.setSpeed(this.getSpeed());
     }
     
     abstract public Missile fireMissile();

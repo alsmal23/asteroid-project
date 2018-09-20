@@ -6,14 +6,11 @@ import com.codename1.ui.geom.Point2D;
 
 public class PlayerShip extends Ship implements ISteerable {
 
-    private int hearts;
-    private static final int MAX_HEARTS = 3;
     private static final int START_X = 512;
     private static final int START_Y = 384;
     private SteerableMissileLauncher missileLauncher = new SteerableMissileLauncher();
 
     public PlayerShip() {
-    	hearts = MAX_HEARTS;
     	this.setColor(ColorUtil.MAGENTA);
     	this.setLocation(new Point2D(START_X, START_Y));
     	this.setSpeed(0);
@@ -28,7 +25,7 @@ public class PlayerShip extends Ship implements ISteerable {
     @Override
     public Missile fireMissile() {
     	this.shotMissile();
-    	return new Missile(this.getLocation(), this.getSpeed(), this.missileLauncher.getDirection());
+    	return new Missile(this.getLocation(), this.getSpeed() + 5, this.missileLauncher.getDirection());
     }
     
     @Override

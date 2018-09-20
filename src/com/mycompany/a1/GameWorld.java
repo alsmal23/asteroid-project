@@ -15,6 +15,8 @@ public class GameWorld {
     private ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
     private int clock;
     private int score;
+    private int hearts;
+    private static final int MAX_HEARTS = 3;
     private boolean found = false;
 
     public GameWorld() {
@@ -27,6 +29,7 @@ public class GameWorld {
     public void init() {
     	score = 0;
     	clock = 0;
+    	hearts = MAX_HEARTS;
     }
     
     /**
@@ -39,7 +42,7 @@ public class GameWorld {
     		psExists = true;
         	System.out.println("Added Player Ship");
     	} else
-    		System.out.println("I ALREADY EXIST"); // should delete
+    		System.out.println("Player Ship already in game"); // should delete
     }
     
     /**
@@ -58,10 +61,6 @@ public class GameWorld {
     public void addAsteroid() {
     	gameObjects.add(new Asteroid());
     	System.out.println("Added Asteroid");
-    	int temp = (355 + 10) % 360;
-    	int temp2 = 360 + (20 - 10);
-    	System.out.println(temp);
-    	System.out.println(temp2);
     }
     
     /**
@@ -88,8 +87,8 @@ public class GameWorld {
      * cmd: f
      */
     public void fireMissile() {
-
     	boolean missile = false;
+    	
     	for (int i = 0; i < gameObjects.size(); i++) {
     		if (gameObjects.get(i) instanceof PlayerShip && !found) {
     			PlayerShip temp = (PlayerShip) gameObjects.get(i);
@@ -105,8 +104,32 @@ public class GameWorld {
     	
     	if (found && missile) {
     		System.out.println("Player Ship fired missile");
-    	} else
-    		System.out.println("No Player Ship or no more missiles left"); // should probably throw exception
+    	} else if (!missile && found)
+    		missingInGame("missiles"); // should probably throw exception
+    	else 
+    		missingInGame("PS");
+    	
+    	found = false; // reset found boolean
+    }
+    
+    /**
+     * Fire missile from NPS
+     * cmd: L
+     */
+    public void launchMissileNPS() {
+    	
+    	for (int i = 0; i < gameObjects.size(); i++) {
+    		if (gameObjects.get(i) instanceof NonPlayerShip && !found) {
+    			NonPlayerShip temp = (NonPlayerShip) gameObjects.get(i);
+    			gameObjects.add(temp.fireMissile());
+    			found = true;
+    		}
+    	}
+    	
+    	if (found) {
+    		System.out.println("Non Player Ship fired missile");
+    	} else  
+    		missingInGame("NPS");
     	
     	found = false; // reset found boolean
     }
@@ -128,7 +151,7 @@ public class GameWorld {
     	if (found) {
     		System.out.println("Increased Player Ship speed");
     	} else
-    		System.out.println("No Player Ship to increase speed of"); // should probably throw exception
+    		missingInGame("PS"); // should probably throw exception
     	
     	found = false; // reset found boolean
     }
@@ -150,7 +173,7 @@ public class GameWorld {
     	if (found) {
     		System.out.println("Decreased Player Ship speed");
     	} else
-    		System.out.println("No Player Ship to decrease speed of"); // should probably throw exception
+    		missingInGame("PS"); // should probably throw exception
     	
     	found = false; // reset found boolean
     }
@@ -271,6 +294,37 @@ public class GameWorld {
     	found = false; // reset found boolean
     }
     
+    /**
+     * PS has struck an asteroid with a missile to eliminate it
+     * cmd: k
+     */
+    public void killAsteroid() {
+    	int missile = -1;
+    	int asteroid = -1;
+    	addToScore(4);
+    	
+    	for (int i = 0; i < gameObjects.size(); i++) {
+    		if (gameObjects.get(i) instanceof Missile)
+    			missile = i;
+    		if (gameObjects.get(i) instanceof Asteroid && !found) {
+    			asteroid = i;
+    			found = true;
+    		}
+    	}
+    	
+    	if (found && missile != -1) {
+    		gameObjects.remove(asteroid);
+    		gameObjects.remove(missile - 1);
+    		System.out.println("Destroyed Asteroid");
+    	} else if (!found && missile != -1)
+    		 missingInGame("Asteroid"); // should probably throw exception
+    	else 
+    		missingInGame("missile");
+    	
+    	found = false; // reset found boolean
+    	
+    }
+    
    /**
     * PS has struck a NPS with a missile to eliminate it
     * Add 10 Points to the score
@@ -297,9 +351,89 @@ public class GameWorld {
     		gameObjects.remove(nps);
     		gameObjects.remove(missile - 1);
     		System.out.println("Destroyed NPS");
-    	} else if (!found && missile != -1)
-    		 missingInGame("NPS"); // should probably throw exception
+    	} else if (found && missile == -1)
+    		 missingInGame("missile"); // should probably throw exception
     	else 
+    		missingInGame("NPS");
+    	
+    	found = false; // reset found boolean
+    }
+    
+    /**
+     * NPS's missile hit PS 
+     * cmd: E
+     */
+    public void explodePS() {
+    	int missile = -1;
+    	int ps = -1;
+    	boolean gameOver = false;
+    	
+    	for (int i = 0; i < gameObjects.size(); i++) {
+    		if (gameObjects.get(i) instanceof Missile)
+    			missile = i;
+    		if (gameObjects.get(i) instanceof PlayerShip && !found) {
+    			PlayerShip temp = (PlayerShip) gameObjects.get(i);
+    			if (hasHeartsToSpare()) { // fix
+    				ps = i;
+    				removeHeart();
+    			} else {
+    				// game over
+    				gameOver = true;
+    			}
+    			found = true;
+    		}
+    	}
+    	
+    	if (gameOver)
+    		System.out.println("Game Over");
+    	else if (found && missile != -1 && ps != -1) {
+    		gameObjects.remove(ps);
+    		gameObjects.remove(missile - 1);
+    		psExists = false;
+    		System.out.println("PS was destroyed by NPS missile"); // should probably throw exception
+    	} else if (!found) 
+    		missingInGame("PS");
+    	else
+    		missingInGame("missile");
+    	
+    	found = false; // reset found boolean	
+    }
+    
+    /**
+     * PS has crashed into an Asteroid
+     * cmd: c
+     */
+    public void crashedPS() {
+    	int asteroid = -1;
+    	int ps = -1;
+    	boolean gameOver = false;
+    	
+    	for (int i = 0; i < gameObjects.size(); i++) {
+    		if (gameObjects.get(i) instanceof Asteroid)
+    			asteroid = i;
+    		if (gameObjects.get(i) instanceof PlayerShip && !found) {
+    			PlayerShip temp = (PlayerShip) gameObjects.get(i);
+    			if (hasHeartsToSpare()) { // fix
+    				ps = i;
+    				removeHeart();
+    			} else {
+    				// game over
+    				gameOver = true;
+    			}
+    			found = true;
+    		}
+    	}
+    	
+    	if (gameOver)
+    		System.out.println("Game Over");
+    	else if (found && asteroid != -1 && ps != -1) {
+    		gameObjects.remove(ps);
+    		gameObjects.remove(asteroid - 1);
+    		psExists = false;
+    		System.out.println("PS was destroyed by NPS missile"); // should probably throw exception
+    	} else if (!found) 
+    		missingInGame("PS");
+    	else
     		missingInGame("missile");
     	
     	found = false; // reset found boolean
@@ -308,18 +442,22 @@ public class GameWorld {
     /**
      * Add points to overall score of the game
      */
-    public void addToScore(int points) { score += points; }
+    private void addToScore(int points) { score += points; }
+    
+    private boolean hasHeartsToSpare() {
+    	if (this.hearts == 0)
+    		return false;
+    	else
+    		return true;
+    }
+    
+    private void removeHeart() { this.hearts--; }
     
     public int getClock() { return clock; }
     public int getScore() { return score; }
     public int getMaxWidth() { return MAX_WIDTH; }
     public int getMaxHeight() { return MAX_HEIGHT; }
     
-   /* private int containsObject(String obj) {
-    	for (int i = 0; i < gameObjects.size(); i++) {
-    		if (gameObjects.get(i) instanceof  )
-    	}
-    }*/
 
     private static void missingInGame(String missingObject) {
     	System.out.println("No " + missingObject + " in game");

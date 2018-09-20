@@ -76,7 +76,7 @@ public class Game extends Form {
     					break;
     				
     				case 'L':
-    					// same as f ????
+    					gameWorld.launchMissileNPS();
     					break;
     					
     				case 'j':
@@ -88,7 +88,7 @@ public class Game extends Form {
     					break;
     					
     				case 'k':
-    					
+    					gameWorld.killAsteroid();
     					break;
     					
     				case 'e':
@@ -96,7 +96,7 @@ public class Game extends Form {
     					break;
     				
     				case 'E':
-    					
+    					gameWorld.explodePS();
     					break;
     					
     				case 'c':

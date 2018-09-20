@@ -18,17 +18,6 @@ public abstract class MoveableObject extends GameObject {
     	this.direction = randomizeIntRange(0, 360);
     }
 
-    public MoveableObject(int speed, int direction) {
-        if (speed <= 10 && speed >= 0)
-            this.speed = speed;
-        else
-        	this.speed = randomizeIntRange(0, 11);
-        if (direction <= 359 && direction >= 0)
-            this.direction = direction;
-        else
-        	this.direction = randomizeIntRange(0, 360);
-    }
-
 
     /**
 	 * @return the speed

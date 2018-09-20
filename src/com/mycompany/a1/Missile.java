@@ -16,7 +16,7 @@ public class Missile extends MoveableObject {
 	
 	public Missile(Point2D location, int speed, int direction) {
 		this.setLocation(location);
-		this.setSpeed(speed + 5);
+		this.setSpeed(speed);
 		this.setDirection(direction);
 		this.setColor(ColorUtil.WHITE);
 		this.fuel = FUEL_CAPACITY;
