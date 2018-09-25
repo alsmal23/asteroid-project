@@ -4,10 +4,9 @@ public abstract class Ship extends MoveableObject {
 	
 	private int missileCount;
     private MissileLauncher missileLauncher = new MissileLauncher();
-    private static final int MAX_MISSILES = 10;
 
     public Ship() {
-    	missileCount = MAX_MISSILES;
+    	missileCount = 0;
     	this.missileLauncher.setDirection(this.getDirection());
     	this.missileLauncher.setSpeed(this.getSpeed());
     }
@@ -37,8 +36,6 @@ public abstract class Ship extends MoveableObject {
 	 */
 	public void shotMissile() { missileCount--; }
 	
-	public void reloadMissiles() {
-		this.missileCount = MAX_MISSILES;
-	}
+	public void setMissileCount(int missiles) { this.missileCount = missiles; }
     
 }

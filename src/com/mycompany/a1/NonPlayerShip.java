@@ -6,6 +6,8 @@ import com.codename1.charts.util.ColorUtil;
 public class NonPlayerShip extends Ship {
 	
 	private int size;
+    private static final int MAX_MISSILES = 2;
+
 	
 	public NonPlayerShip() {
 		int temp = this.randomizeIntRange(0, 2);
@@ -14,17 +16,14 @@ public class NonPlayerShip extends Ship {
 		else if (temp == 1)
 			this.size = 20;
 		this.setColor(ColorUtil.YELLOW);
-		
+    	this.setMissileCount(MAX_MISSILES);
+
 	}
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
-    public Missile fireMissile() {
-    	return new Missile(this.getLocation(), this.getSpeed() + 4, this.getDirection());
+    public NPSMissile fireMissile() {
+    	this.shotMissile();
+    	return new NPSMissile(this.getLocation(), this.getSpeed() + 4, this.getDirection());
     }
     
     @Override

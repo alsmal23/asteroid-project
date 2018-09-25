@@ -7,11 +7,6 @@ public class SteerableMissileLauncher extends MissileLauncher implements ISteera
     	this.setDirection(0);
 	}
 
-    @Override
-    public void changeDirection(int direction) {
-
-    }
-
 	@Override
 	public void steerRight() {
 		this.setDirection((this.getDirection() + 7) % 360);
@@ -20,7 +15,11 @@ public class SteerableMissileLauncher extends MissileLauncher implements ISteera
 
 	@Override
 	public void steerLeft() {
-		// TODO Auto-generated method stub
+		int temp = this.getDirection() - 7;
+		if (temp < 0)
+			this.setDirection(360 + temp);
+		else
+			this.setDirection(temp);
 		
 	}
 }

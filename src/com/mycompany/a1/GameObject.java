@@ -8,12 +8,13 @@ import com.mycompany.a1.exceptions.IllegalFixedObjectMethod;
 
 public abstract class GameObject {
 
+    private static final int MAX_WIDTH = 1024;
+    private static final int MAX_HEIGHT = 768;
     private Point2D location;
 	private int color;
-    private GameWorld gw = new GameWorld();
     
     public GameObject() {
-    	this.location = new Point2D(randomizeDouble(gw.getMaxWidth()), randomizeDouble(gw.getMaxHeight()));
+    	this.location = new Point2D(randomizeDouble(MAX_WIDTH), randomizeDouble(MAX_HEIGHT));
     }
     
     /**
@@ -63,6 +64,10 @@ public abstract class GameObject {
      */
     public static double randomizeDouble(int num) {
     	Random rng = new Random();
-    	return (double) rng.nextInt(num);
+    	return Math.round((num * rng.nextDouble()) * 10.0) /10.0;
     }
+    
+    public int getMaxWidth() { return MAX_WIDTH; }
+    public int getMaxHeight() { return MAX_HEIGHT; }
+    
 }

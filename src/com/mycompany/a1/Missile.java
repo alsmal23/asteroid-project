@@ -4,7 +4,7 @@ import com.codename1.ui.geom.Point2D;
 import com.codename1.charts.util.ColorUtil;
 
 
-public class Missile extends MoveableObject {
+public abstract class Missile extends MoveableObject {
 	
 	private int fuel;
 	private static int FUEL_CAPACITY = 10;
@@ -14,6 +14,20 @@ public class Missile extends MoveableObject {
 		this.fuel = FUEL_CAPACITY;
 	}
 	
+	@Override
+	public void move() {
+		super.move();
+		fuel--;
+		//check if fuel == 0 then take out
+	}
+	
+	public boolean isFuelEmpty() {
+		if (this.fuel == 0)
+			return true;
+		else
+			return false;
+	}
+	
 	public Missile(Point2D location, int speed, int direction) {
 		this.setLocation(location);
 		this.setSpeed(speed);
@@ -21,22 +35,20 @@ public class Missile extends MoveableObject {
 		this.setColor(ColorUtil.WHITE);
 		this.fuel = FUEL_CAPACITY;
 	}
-	
-	@Override
-	public void move() {
-		
-	}
 
 	/**
-	 * @return the fuel
+	 * @return the fuel level
 	 */
 	public int getFuel() {
 		return fuel;
 	}
-
-	@Override
-	public String toString() {
-		return "PS's Missile: loc=" + this.getLocation() + " color=" + this.getColorString() + " speed=" + this.getSpeed() + " dir=" + this.getDirection()
-			+ " fuel=" + this.fuel;
+	
+	public void setFuel(int fuel) {
+		this.fuel = fuel;
 	}
+	
+	public int getFuelCapacity() {
+		return FUEL_CAPACITY;
+	}
+
 }

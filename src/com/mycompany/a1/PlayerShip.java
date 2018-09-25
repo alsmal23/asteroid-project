@@ -6,6 +6,7 @@ import com.codename1.ui.geom.Point2D;
 
 public class PlayerShip extends Ship implements ISteerable {
 
+    private static final int MAX_MISSILES = 10;
     private static final int START_X = 512;
     private static final int START_Y = 384;
     private SteerableMissileLauncher missileLauncher = new SteerableMissileLauncher();
@@ -15,17 +16,13 @@ public class PlayerShip extends Ship implements ISteerable {
     	this.setLocation(new Point2D(START_X, START_Y));
     	this.setSpeed(0);
     	this.setDirection(0);
+    	this.setMissileCount(MAX_MISSILES);
     }
 
     @Override
-    public void move() {
-
-    }
-
-    @Override
-    public Missile fireMissile() {
+    public PSMissile fireMissile() {
     	this.shotMissile();
-    	return new Missile(this.getLocation(), this.getSpeed() + 5, this.missileLauncher.getDirection());
+    	return new PSMissile(this.getLocation(), this.getSpeed() + 5, this.missileLauncher.getDirection());
     }
     
     @Override
@@ -51,12 +48,6 @@ public class PlayerShip extends Ship implements ISteerable {
     	else
     		this.setSpeed(this.getSpeed() - 2);
     }
-
-	@Override
-	public void changeDirection(int direction) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	/**
 	 * Steer the ship to the right by 10
@@ -90,5 +81,9 @@ public class PlayerShip extends Ship implements ISteerable {
 	 */
 	public void resetLocation() {
 		this.setLocation(new Point2D(START_X, START_Y));
+	}
+	
+	public void reloadMissiles() {
+		this.setMissileCount(MAX_MISSILES);
 	}
 }

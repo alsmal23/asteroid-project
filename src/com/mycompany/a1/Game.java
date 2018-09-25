@@ -1,5 +1,7 @@
 package com.mycompany.a1;
 
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionListener; import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
@@ -100,27 +102,27 @@ public class Game extends Form {
     					break;
     					
     				case 'c':
-    					
+    					gameWorld.crashedPS();
     					break;
     				
     				case 'h':
-    					
+    					gameWorld.psHitsNPS();
     					break;
     				
     				case 'x':
-    					
+    					gameWorld.exterminationOfAsteroids();
     					break;
     				
     				case 'I':
-    					
+    					gameWorld.asteroidCollidedWithNPS();
     					break;
     				
     				case 't':
-    					
+    					gameWorld.timeTick();
     					break;
     				
     				case 'p':
-    					
+    					gameWorld.printGameStatus();
     					break;
     					
     				case 'm':
@@ -128,7 +130,10 @@ public class Game extends Form {
     					break;
     				
     				case 'q':
-    					
+    					boolean quit = Dialog.show("Confirm quit", "Are you sure you want to quit?", "Okay", "Cancel");
+    					if (quit) {
+    						Display.getInstance().exitApplication();
+    					}
     					break;
     					
     				default:

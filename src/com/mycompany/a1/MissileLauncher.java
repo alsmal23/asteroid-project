@@ -6,10 +6,7 @@ public class MissileLauncher extends MoveableObject {
 
     }
 
-    public void move() {
-
-    }
-
+	@Override
     public String toString() {
         return "";
     }

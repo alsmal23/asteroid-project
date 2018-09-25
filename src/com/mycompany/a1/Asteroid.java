@@ -12,11 +12,6 @@ public class Asteroid extends MoveableObject {
 	}
 	
 	@Override
-	public void move() {
-		
-	}
-	
-	@Override
 	public String toString() {
 		return "Asteroid: loc=" + this.getLocation() + " color=" + this.getColorString() + " speed="
     			+ this.getSpeed() + " dir=" + this.getDirection() + " size=" + this.size;
